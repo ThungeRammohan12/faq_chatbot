@@ -1,5 +1,9 @@
 import os
+from dotenv import load_dotenv
 import chromadb
+
+# IMPORTANT: Load env BEFORE reading variables
+load_dotenv()
 
 CHROMA_API_KEY = os.getenv("CHROMA_API_KEY")
 CHROMA_TENANT = os.getenv("CHROMA_TENANT")
@@ -14,6 +18,4 @@ client = chromadb.CloudClient(
     database=CHROMA_DATABASE
 )
 
-collection = client.get_or_create_collection(
-    name="excel_documents"
-)
+collection = client.get_or_create_collection("excel_documents")

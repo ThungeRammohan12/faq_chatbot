@@ -18,17 +18,24 @@ model = genai.GenerativeModel("gemini-2.5-flash-lite")
 
 def rephrase_answer(context, question):
     prompt = f"""
-You are a helpful assistant.
+You are a RAG-based assistant.
 
-Answer the question ONLY using the context below.
-If the answer is not present in the context, say "I don't know".
+Your task:
+- The knowledge provided comes from a database.
+- Use ONLY the given knowledge to answer.
+- Rephrase the answer clearly based on the user's question.
+- Do NOT add new information.
+- If the knowledge does NOT contain an answer related to the question,
+  respond exactly with: "Please enter a valid question"
 
-Context:
+Knowledge from database:
 {context}
 
-Question:
+User Question:
 {question}
-"""
 
+Final Answer:
+"""
     response = model.generate_content(prompt)
-    return response.text
+    return response.text.strip()
+
